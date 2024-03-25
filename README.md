@@ -1,1 +1,1 @@
-# project_x
+Welcome to Fake Vinted. This is the online store where you can buy and sell your new or used clothes.
