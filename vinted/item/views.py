@@ -1,8 +1,25 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import NewItemForm, EditItemForm
-from .models import Item
+from .models import Item, Category
 
+
+def items(request):
+    query = request.GET.get('query', '')
+    items = Item.objects.filter(is_sold=False)
+    category_id = request.GET.get('category', 0)
+    categories = Category.objects.all()
+    if category_id:
+        items = items.filter(category_id=category_id)
+
+    if query:
+        items = items.filter(name__icontains=query)
+    return render(request, 'item/items.html', {
+        'items': items,
+        'query': query,
+        'categories': categories,
+        'category_id': int(category_id),
+    })
 
 def detail(request, pk):
     item = get_object_or_404(Item, pk=pk)
@@ -12,6 +29,7 @@ def detail(request, pk):
         'item': item,
         'related_items': related_items
     })
+
 
 @login_required
 def new(request):
@@ -31,11 +49,13 @@ def new(request):
         'title': 'New item',
     })
 
+
 @login_required
 def delete(request, pk):
     item = get_object_or_404(Item, pk=pk, created_by=request.user)
     item.delete()
     return redirect('dashboard:index')
+
 
 @login_required
 def edit(request, pk):
@@ -51,6 +71,7 @@ def edit(request, pk):
         'form': form,
         'title': 'Edit item',
     })
+
 
 @login_required
 def user_detail_current(request):
