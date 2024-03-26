@@ -51,3 +51,7 @@ def edit(request, pk):
         'form': form,
         'title': 'Edit item',
     })
+
+@login_required
+def user_detail_current(request):
+    return render(request, 'user_detail.html', {'user': request.user})
