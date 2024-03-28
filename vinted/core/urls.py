@@ -3,6 +3,7 @@ from django.urls import path
 from . import views
 from .forms import LoginForm
 
+
 app_name='core'
 
 urlpatterns = [
