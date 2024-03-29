@@ -30,7 +30,6 @@ def detail(request, pk):
         'related_items': related_items
     })
 
-
 @login_required
 def new(request):
     if request.method == 'POST':
@@ -49,13 +48,11 @@ def new(request):
         'title': 'New item',
     })
 
-
 @login_required
 def delete(request, pk):
     item = get_object_or_404(Item, pk=pk, created_by=request.user)
     item.delete()
     return redirect('dashboard:index')
-
 
 @login_required
 def edit(request, pk):
@@ -71,7 +68,6 @@ def edit(request, pk):
         'form': form,
         'title': 'Edit item',
     })
-
 
 @login_required
 def user_detail_current(request):
